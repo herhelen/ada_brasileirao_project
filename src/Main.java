@@ -14,5 +14,10 @@ public class Main {
 
 
         System.out.println(repositorioGol.getDados().get(0).getAtleta());
+
+        //repositorioGol.getDados().forEach(System.out::println);
+        repositorioGol.getDados().stream()
+                .filter(dados -> dados.getRodata().equals("33"))
+                .forEach(System.out::println);
     }
 }

@@ -24,8 +24,11 @@ public class ReadingCSV<T extends Dados> {
             listaDados = br.lines()
                     .skip(1) // Pula o cabeçalho
                     .map(line -> line.split(splitBy))
+                    .map(this::removerAspas)
                     .map(mapper)
                     .collect(Collectors.toList());
+
+//            // Lê o arquivo linha por linha e imprime na tela
 //            String line;
 //            while((line = br.readLine()) != null) {
 //                String[] data = line.split(splitBy);
@@ -38,5 +41,12 @@ public class ReadingCSV<T extends Dados> {
             e.printStackTrace();
         }
         return listaDados;
+    }
+
+    private String[] removerAspas(String[] data) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = data[i].replaceAll("\"", "");  // Remove aspas
+        }
+        return data;
     }
 }

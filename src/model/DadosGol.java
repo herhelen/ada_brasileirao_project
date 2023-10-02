@@ -16,6 +16,7 @@ public class DadosGol implements Dados {
         dadosGol.atleta = data[3];
         dadosGol.minuto = data[4];
         dadosGol.tipoDeGol = data[5];
+
         return dadosGol;
     }
 
