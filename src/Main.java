@@ -28,6 +28,13 @@ public class Main {
         for (Map.Entry<String, Long> entry: serviceGol.getAthleteWithMostGoals()) {
             System.out.println("Jogador: " + entry.getKey() + " - # Gols: " + entry.getValue());
         }
+        System.out.println();
+
+        // O jogador que mais fez gols de pênaltis
+        for (Map.Entry<String, Long> entry: serviceGol.getAthleteWithMostPenalties()) {
+            System.out.println("Jogador: " + entry.getKey() + " - # Pênaltis: " + entry.getValue());
+        }
+        System.out.println();
 
     }
 

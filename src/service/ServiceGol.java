@@ -29,7 +29,6 @@ public class ServiceGol extends Service<DadosGol> {
         // Retorna uma lista de jogadores que tenha número de gols igual ao maior número de gols
         return this.repositorio
                 .getDados().stream()
-                // agrupa pelo nome do jogador e conta número de gols feitos por ele
                 .collect(Collectors.groupingBy(DadosGol::getAtleta, Collectors.counting()))
                 .entrySet()
                 .stream()
@@ -37,5 +36,29 @@ public class ServiceGol extends Service<DadosGol> {
                 .collect(Collectors.toList());
     }
 
+    public List<Map.Entry<String, Long>> getAthleteWithMostPenalties() {
+
+        // Encontra o maior número de pênaltis
+        Long numberMostPenalties = this.repositorio
+                .getDados().stream()
+                // filtra apenas gols do tipo pênalti
+                .filter(gol -> gol.getTipoDeGol().equalsIgnoreCase("Penalty"))
+                // agrupa pelo nome do jogador e conta número de pênaltis
+                .collect(Collectors.groupingBy(DadosGol::getAtleta, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .get()
+                .getValue();
+
+        // Retorna uma lista de jogadores que tenha número de pênaltis igual ao maior número de pênaltis
+        return this.repositorio
+                .getDados().stream()
+                .collect(Collectors.groupingBy(DadosGol::getAtleta, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() == numberMostPenalties)
+                .collect(Collectors.toList());
+    }
 
 }
