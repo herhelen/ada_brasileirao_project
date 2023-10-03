@@ -5,6 +5,9 @@ import src.repository.RepositorioSingletons;
 import src.service.ServiceCards;
 import src.service.ServiceFull;
 import src.service.ServiceGol;
+import src.view.ViewAthleteWithMostGoals;
+import src.view.ViewStateWithLeastMatchByPeriod;
+import src.view.ViewTeamWithMostWinsByYear;
 
 import java.util.Map;
 
@@ -15,7 +18,10 @@ public class Main {
         ServiceGol serviceGol = new ServiceGol(RepositorioSingletons.getGoalRepository());
         ServiceCards serviceCards = new ServiceCards(RepositorioSingletons.getCardsRepository());
 
-        // O time que mais venceu jogos no ano 2008
+        //ViewTeamWithMostWinsByYear.showTeam(serviceFull);
+        //ViewStateWithLeastMatchByPeriod.show(serviceFull);
+        ViewAthleteWithMostGoals.show(serviceGol);
+        /*// O time que mais venceu jogos no ano 2008
         for (Map.Entry<String, Long> entry: serviceFull.getTeamWithMostWinsByYear(2008)) {
             System.out.println("Time: " + entry.getKey() + " - # Vitórias: " + entry.getValue());
         }
@@ -63,7 +69,7 @@ public class Main {
                     dadosFull.getHost() +  " " + dadosFull.getHostScore() + " X " +
                     dadosFull.getVisitorScore() + " " + dadosFull.getVisitor());
         }
-        System.out.println();
+        System.out.println();*/
 
     }
 
