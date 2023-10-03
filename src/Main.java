@@ -2,6 +2,7 @@ package src;
 
 import src.model.DadosFull;
 import src.model.DadosGol;
+import src.model.DadosStatsFull;
 import src.reading.ReadingCSV;
 import src.repository.Repositorio;
 
@@ -12,10 +13,18 @@ public class Main {
 
         exampleGoalsData();
         exampleFullData();
+        exampleFullStats();
 
 
     }
 
+    static void exampleFullStats(){
+        ReadingCSV<DadosStatsFull> reader = new ReadingCSV<>("data/campeonato-brasileiro-estatisticas-full.csv");
+        List<DadosStatsFull> statsData = reader.Reading(DadosStatsFull::createInstance);
+        Repositorio<DadosStatsFull> statsRepository = new Repositorio<>(statsData);
+
+        System.out.println(statsRepository.getDados().stream().findFirst());
+    }
     static void exampleFullData(){
         ReadingCSV<DadosFull> readerFull = new ReadingCSV<>("data/campeonato-brasileiro-full.csv");
         List<DadosFull> fullData = readerFull.Reading(DadosFull::createInstance);
