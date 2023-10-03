@@ -16,12 +16,14 @@ public class Main {
         ServiceGol serviceGol = new ServiceGol(RepositorioSingletons.getGoalRepository());
         ServiceCards serviceCards = new ServiceCards(RepositorioSingletons.getCardsRepository());
 
-        //ViewTeamWithMostWinsByYear.showTeam(serviceFull);
+        //ViewTeamWithMostWinsByYear.show(serviceFull);
         //ViewStateWithLeastMatchByPeriod.show(serviceFull);
         //ViewAthleteWithMostGoals.show(serviceGol);
         //ViewAthleteWithMostPenalties.show(serviceGol);
         //ViewAthleteWithMostOwnGoals.show(serviceGol);
         //ViewMatchIdWithMostGoals.show(serviceFull, serviceGol);
+        ViewAthleteWithMostYellowCards.show(serviceCards);
+        ViewAthleteWithMostRedCards.show(serviceCards);
         /*// O time que mais venceu jogos no ano 2008
         for (Map.Entry<String, Long> entry: serviceFull.getTeamWithMostWinsByYear(2008)) {
             System.out.println("Time: " + entry.getKey() + " - # Vitórias: " + entry.getValue());
