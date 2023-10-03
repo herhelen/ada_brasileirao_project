@@ -8,7 +8,7 @@ public class DadosGol implements Dados {
     private String minuto;
     private String tipoDeGol;
 
-    public static DadosGol criarInstancia(String[] data){
+    public static DadosGol createInstance(String[] data){
         DadosGol dadosGol = new DadosGol();
         dadosGol.partidaId = data[0];
         dadosGol.rodata = data[1];
