@@ -3,6 +3,7 @@ package src.view;
 import src.service.ServiceFull;
 import src.utils.Input;
 
+import java.util.List;
 import java.util.Map;
 
 public class ViewStateWithLeastMatchByPeriod {
@@ -27,9 +28,16 @@ public class ViewStateWithLeastMatchByPeriod {
             }
         } while (verification == false);
 
+        List <Map.Entry<String, Long>> states = service.getStateWithLeastMatchByPeriod(startYear, endYear);
+
+        if (states.size() > 1){
+            System.out.println("Os Estados com menos jogos dentro do período de " + startYear + " e " + endYear + ": ");
+        } else {
+            System.out.println("O Estado com menos jogos dentro do período de " + startYear + " e " + endYear + ": ");
+        }
+
         // O Estado que teve menos jogos dentro do período 2003 e 2022
-        System.out.println("O Estado que menos jogos dentro do período de " + startYear + " e " + endYear + ": ");
-        for (Map.Entry<String, Long> entry: service.getStateWithLeastMatchByPeriod(startYear, endYear)) {
+        for (Map.Entry<String, Long> entry: states) {
             System.out.println("Time: " + entry.getKey() + " - # Vitórias: " + entry.getValue());
         }
     }
