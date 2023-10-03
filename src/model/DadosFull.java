@@ -2,7 +2,6 @@ package src.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class DadosFull implements Dados {
     private String id;
