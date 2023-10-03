@@ -2,6 +2,7 @@ package src;
 
 import src.repository.RepositorioSingletons;
 import src.service.ServiceFull;
+import src.service.ServiceGol;
 
 import java.util.Map;
 
@@ -9,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         ServiceFull serviceFull = new ServiceFull(RepositorioSingletons.getFullRepository());
+        ServiceGol serviceGol = new ServiceGol(RepositorioSingletons.getGoalRepository());
 
         // O time que mais venceu jogos no ano 2008
         for (Map.Entry<String, Long> entry: serviceFull.getTeamWithMostWinsByYear(2008)) {
@@ -20,8 +22,12 @@ public class Main {
         for (Map.Entry<String, Long> entry: serviceFull.getStateWithLeastMatchByPeriod(2003, 2022)) {
             System.out.println("Estado: " + entry.getKey() + " - # Partidas: " + entry.getValue());
         }
+        System.out.println();
 
-
+        // O jogador que mais fez gols
+        for (Map.Entry<String, Long> entry: serviceGol.getAthleteWithMostGoals()) {
+            System.out.println("Jogador: " + entry.getKey() + " - # Gols: " + entry.getValue());
+        }
 
     }
 
