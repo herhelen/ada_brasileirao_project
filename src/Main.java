@@ -1,5 +1,6 @@
 package src;
 
+import src.model.DadosFull;
 import src.repository.RepositorioSingletons;
 import src.service.ServiceCards;
 import src.service.ServiceFull;
@@ -53,6 +54,14 @@ public class Main {
         // O jogador que mais recebeu cartões vermelhos
         for (Map.Entry<String, Long> entry: serviceCards.getAthleteWithMostRedCards()) {
             System.out.println("Jogador: " + entry.getKey() + " - # Cartões vermelhos: " + entry.getValue());
+        }
+        System.out.println();
+
+        // O placar da partida com mais gols.
+        for (DadosFull dadosFull : serviceFull.getMatchScoreById(serviceGol.getMatchIdWithMostGoals())) {
+            System.out.println(
+                    dadosFull.getHost() +  " " + dadosFull.getHostScore() + " X " +
+                    dadosFull.getVisitorScore() + " " + dadosFull.getVisitor());
         }
         System.out.println();
 

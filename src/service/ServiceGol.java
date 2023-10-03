@@ -85,4 +85,27 @@ public class ServiceGol extends Service<DadosGol> {
                 .filter(entry -> entry.getValue() == numberMostOwnGoals)
                 .collect(Collectors.toList());
     }
+
+    public List<Map.Entry<String, Long>> getMatchIdWithMostGoals() {
+
+        // Encontra o maior número de gols
+        Long numberMostGoals = this.repositorio
+                .getDados().stream()
+                // agrupa pelo id da partida e conta número de gols total
+                .collect(Collectors.groupingBy(DadosGol::getPartidaId, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .get()
+                .getValue();
+
+        // Retorna uma lista de id de partidas que tenha número de gols igual ao maior número de gols
+        return this.repositorio
+                .getDados().stream()
+                .collect(Collectors.groupingBy(DadosGol::getPartidaId, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() == numberMostGoals)
+                .collect(Collectors.toList());
+    }
 }

@@ -69,4 +69,15 @@ public class ServiceFull extends Service<DadosFull> {
                 .filter(entry -> entry.getValue() == numberLeastMatches)
                 .collect(Collectors.toList());
     }
+
+    public List<DadosFull> getMatchScoreById(List<Map.Entry<String, Long>> matches) {
+
+        List<String> matchesIds = matches.stream()
+                .map(entry -> entry.getKey())
+                .collect(Collectors.toList());
+
+        return this.repositorio.getDados().stream()
+                .filter(dadosStatsFull -> matchesIds.contains(dadosStatsFull.getId()))
+                .collect(Collectors.toList());
+    }
 }
