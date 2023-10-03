@@ -42,7 +42,7 @@ public class ServiceGol extends Service<DadosGol> {
         Long numberMostPenalties = this.repositorio
                 .getDados().stream()
                 // filtra apenas gols do tipo pênalti
-                .filter(gol -> gol.getTipoDeGol().equalsIgnoreCase("Penalty"))
+                .filter(dadosGol -> dadosGol.getTipoDeGol().equalsIgnoreCase("Penalty"))
                 // agrupa pelo nome do jogador e conta número de pênaltis
                 .collect(Collectors.groupingBy(DadosGol::getAtleta, Collectors.counting()))
                 .entrySet()
@@ -61,4 +61,28 @@ public class ServiceGol extends Service<DadosGol> {
                 .collect(Collectors.toList());
     }
 
+    public List<Map.Entry<String, Long>> getAthleteWithMostOwnGoals() {
+
+        // Encontra o maior número de gols contras
+        Long numberMostOwnGoals = this.repositorio
+                .getDados().stream()
+                // filtra apenas gols do tipo gol contra
+                .filter(dadosGol -> dadosGol.getTipoDeGol().equalsIgnoreCase("Gol Contra"))
+                // agrupa pelo nome do jogador e conta número de gols contras
+                .collect(Collectors.groupingBy(DadosGol::getAtleta, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .get()
+                .getValue();
+
+        // Retorna uma lista de jogadores que tenha número de gols contras igual ao maior número de gols contras
+        return this.repositorio
+                .getDados().stream()
+                .collect(Collectors.groupingBy(DadosGol::getAtleta, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() == numberMostOwnGoals)
+                .collect(Collectors.toList());
+    }
 }

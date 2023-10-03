@@ -36,6 +36,12 @@ public class Main {
         }
         System.out.println();
 
+        // O jogador que mais fez gols contras
+        for (Map.Entry<String, Long> entry: serviceGol.getAthleteWithMostOwnGoals()) {
+            System.out.println("Jogador: " + entry.getKey() + " - # Gols contras: " + entry.getValue());
+        }
+        System.out.println();
+
     }
 
 
