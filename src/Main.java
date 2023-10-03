@@ -1,5 +1,6 @@
 package src;
 
+import src.model.DadosCards;
 import src.model.DadosFull;
 import src.model.DadosGol;
 import src.model.DadosStatsFull;
@@ -14,8 +15,16 @@ public class Main {
         exampleGoalsData();
         exampleFullData();
         exampleFullStats();
+        exampleCards();
 
+    }
 
+    static void exampleCards(){
+        ReadingCSV<DadosCards> reader = new ReadingCSV<>("data/campeonato-brasileiro-cartoes.csv");
+        List<DadosCards> cardsData = reader.Reading(DadosCards::createInstance);
+        Repositorio<DadosCards> cardsRepository = new Repositorio<>(cardsData);
+
+        System.out.println(cardsRepository.getDados().stream().findFirst());
     }
 
     static void exampleFullStats(){
