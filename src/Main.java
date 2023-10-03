@@ -1,34 +1,23 @@
 package src;
 
 import src.repository.RepositorioSingletons;
+import src.service.ServiceFull;
+
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
 
-        exampleGoalsData();
-        exampleFullData();
-        exampleFullStats();
-        exampleCards();
+        ServiceFull serviceFull = new ServiceFull(RepositorioSingletons.getFullRepository());
+
+        // O time que mais venceu jogos no ano 2008
+        for (Map.Entry<String, Long> entry: serviceFull.getTeamWithMostWinsByYear(2008)) {
+            System.out.println("Time: " + entry.getKey() + " - Vitórias: " + entry.getValue());
+        }
+
+
 
     }
 
-    static void exampleCards(){
-        System.out.println(RepositorioSingletons.getCardsRepository().getDados().stream().findFirst());
-    }
 
-    static void exampleFullStats(){
-        System.out.println(RepositorioSingletons.getStatsRepository().getDados().stream().findFirst());
-    }
-
-    static void exampleFullData(){
-        System.out.println(RepositorioSingletons.getFullRepository().getDados().stream().findFirst());
-
-    }
-
-    static void exampleGoalsData(){
-        System.out.println(RepositorioSingletons.getGoalRepository().getDados().get(0).getAtleta());
-        System.out.println(RepositorioSingletons.getGoalRepository().getDados().stream()
-                .filter(rows -> rows.getRodata().equals("33"))
-                .findFirst());
-    }
 }
