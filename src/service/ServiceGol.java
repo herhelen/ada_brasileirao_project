@@ -54,6 +54,7 @@ public class ServiceGol extends Service<DadosGol> {
         // Retorna uma lista de jogadores que tenha número de pênaltis igual ao maior número de pênaltis
         return this.repositorio
                 .getDados().stream()
+                .filter(dadosGol -> dadosGol.getTipoDeGol().equalsIgnoreCase("Penalty"))
                 .collect(Collectors.groupingBy(DadosGol::getAtleta, Collectors.counting()))
                 .entrySet()
                 .stream()
@@ -79,6 +80,7 @@ public class ServiceGol extends Service<DadosGol> {
         // Retorna uma lista de jogadores que tenha número de gols contras igual ao maior número de gols contras
         return this.repositorio
                 .getDados().stream()
+                .filter(dadosGol -> dadosGol.getTipoDeGol().equalsIgnoreCase("Gol Contra"))
                 .collect(Collectors.groupingBy(DadosGol::getAtleta, Collectors.counting()))
                 .entrySet()
                 .stream()

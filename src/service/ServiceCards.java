@@ -41,7 +41,7 @@ public class ServiceCards extends Service<DadosCards> {
     public List<Map.Entry<String, Long>> getAthleteWithMostRedCards() {
 
         // Encontra o maior número de cartões vermelhos
-        Long numberMostYellowCards = this.repositorio
+        Long numberMostRedCards = this.repositorio
                 .getDados().stream()
                 .filter(dadosCards -> dadosCards.getCard().equalsIgnoreCase("Vermelho"))
                 // agrupa pelo nome do jogador e conta número de cartões vermelhos que ele recebeu
@@ -59,7 +59,7 @@ public class ServiceCards extends Service<DadosCards> {
                 .collect(Collectors.groupingBy(DadosCards::getAthleteName, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .filter(entry -> entry.getValue() == numberMostYellowCards)
+                .filter(entry -> entry.getValue() == numberMostRedCards)
                 .collect(Collectors.toList());
     }
 }
