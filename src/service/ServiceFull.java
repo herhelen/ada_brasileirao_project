@@ -48,8 +48,6 @@ public class ServiceFull extends Service<DadosFull> {
         // Encontra o menor número de partidas
         Long numberLeastMatches = this.repositorio
                 .getDados().stream()
-                // Remove os empates
-                .filter(match -> !match.getWinner().equalsIgnoreCase("-"))
                 .filter(match -> match.getDate().getYear() >= startYear && match.getDate().getYear() <= endYear)
                 // agrupa pelo estado e conta número de partidas
                 .collect(Collectors.groupingBy(DadosFull::getHostState, Collectors.counting()))
@@ -62,7 +60,6 @@ public class ServiceFull extends Service<DadosFull> {
         // Retorna uma lista de estados que tenha número de partidas igual ao menor número de partidas
         return this.repositorio
                 .getDados().stream()
-                .filter(match -> !match.getWinner().equalsIgnoreCase("-"))
                 .filter(match -> match.getDate().getYear() >= startYear && match.getDate().getYear() <= endYear)
                 .collect(Collectors.groupingBy(DadosFull::getHostState, Collectors.counting()))
                 .entrySet()

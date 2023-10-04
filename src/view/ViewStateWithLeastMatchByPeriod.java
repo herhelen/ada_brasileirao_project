@@ -38,7 +38,7 @@ public class ViewStateWithLeastMatchByPeriod {
 
         // O Estado que teve menos jogos dentro do período 2003 e 2022
         for (Map.Entry<String, Long> entry: states) {
-            System.out.println("Time: " + entry.getKey() + " - # Vitórias: " + entry.getValue());
+            System.out.println("Estado: " + entry.getKey() + " - # Partidas: " + entry.getValue());
         }
     }
 }
