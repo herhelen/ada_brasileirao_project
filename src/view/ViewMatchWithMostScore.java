@@ -2,13 +2,12 @@ package src.view;
 
 import src.model.DadosFull;
 import src.service.ServiceFull;
-import src.service.ServiceGol;
 
 import java.util.List;
 
-public class ViewMatchIdWithMostGoals {
-    public static void show(ServiceFull serviceFull, ServiceGol serviceGol){
-        List<DadosFull> matches = serviceFull.getMatchScoreById(serviceGol.getMatchIdWithMostGoals());
+public class ViewMatchWithMostScore {
+    public static void show(ServiceFull serviceFull){
+        List<DadosFull> matches = serviceFull.getMatchWithMostScore();
 
         if (matches.size() > 1){
             System.out.println("Os placares das partidas com mais gols: ");

@@ -80,7 +80,7 @@ public class AdaBrasileirao {
                     break;
                 case "8":
                     try{
-                        ViewMatchIdWithMostGoals.show(serviceFull, serviceGol);
+                        ViewMatchWithMostScore.show(serviceFull);
                         System.out.println();
                     } catch (Exception e){
                         System.out.println(e.getMessage());

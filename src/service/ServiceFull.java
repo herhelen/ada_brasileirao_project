@@ -5,6 +5,7 @@ import src.repository.Repositorio;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ServiceFull extends Service<DadosFull> {
@@ -70,14 +71,21 @@ public class ServiceFull extends Service<DadosFull> {
                 .collect(Collectors.toList());
     }
 
-    public List<DadosFull> getMatchScoreById(List<Map.Entry<String, Long>> matches) {
+    public List<DadosFull> getMatchWithMostScore() {
 
-        List<String> matchesIds = matches.stream()
-                .map(entry -> entry.getKey())
-                .collect(Collectors.toList());
+        Optional<Integer> numberMostScore = this.repositorio
+                .getDados().stream()
+                .map(dadosFull -> dadosFull.getHostScore() + dadosFull.getVisitorScore())
+                .max(Integer::compareTo);
 
-        return this.repositorio.getDados().stream()
-                .filter(dadosStatsFull -> matchesIds.contains(dadosStatsFull.getId()))
-                .collect(Collectors.toList());
+        if (numberMostScore.isPresent()) {
+
+            return this.repositorio
+                    .getDados().stream()
+                    .filter(dadosFull -> dadosFull.getHostScore() + dadosFull.getVisitorScore() == numberMostScore.get())
+                    .collect(Collectors.toList());
+        }
+
+        return null;
     }
 }
