@@ -6,7 +6,9 @@ import src.repository.Repositorio;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ServiceFull extends Service<DadosFull> {
 
@@ -45,25 +47,23 @@ public class ServiceFull extends Service<DadosFull> {
 
     public List<Map.Entry<String, Long>> getStateWithLeastMatchByPeriod(Integer startYear, Integer endYear) {
 
-        // Encontra o menor número de partidas
-        Long numberLeastMatches = this.repositorio
+        Supplier<Stream<Map.Entry<String, Long>>> baseStream = () -> this.repositorio
                 .getDados().stream()
                 .filter(match -> match.getDate().getYear() >= startYear && match.getDate().getYear() <= endYear)
-                // agrupa pelo estado e conta número de partidas
                 .collect(Collectors.groupingBy(DadosFull::getHostState, Collectors.counting()))
                 .entrySet()
-                .stream()
+                .stream();
+
+        // Find min Matches
+        Long numberLeastMatches = baseStream
+                .get()
                 .min(Map.Entry.comparingByValue())
                 .get()
                 .getValue();
 
         // Retorna uma lista de estados que tenha número de partidas igual ao menor número de partidas
-        return this.repositorio
-                .getDados().stream()
-                .filter(match -> match.getDate().getYear() >= startYear && match.getDate().getYear() <= endYear)
-                .collect(Collectors.groupingBy(DadosFull::getHostState, Collectors.counting()))
-                .entrySet()
-                .stream()
+        return baseStream
+                .get()
                 .filter(entry -> entry.getValue() == numberLeastMatches)
                 .collect(Collectors.toList());
     }
