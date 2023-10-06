@@ -15,83 +15,79 @@ public class AdaBrasileirao {
         ServiceCards serviceCards = new ServiceCards(RepositorioSingletons.getCardsRepository());
 
         System.out.println("---- ADA BRASILEIRÃO ----");
-        String operacao = "";
+        String operacao;
         do {
             ViewMenu.showMenu();
             operacao = Input.getString();
             System.out.println();
 
-            switch (operacao){
-                case "1":
+            switch (operacao) {
+                case "1" -> {
                     try {
                         ViewTeamWithMostWinsByYear.show(serviceFull);
                         System.out.println();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
-                case "2":
-                    try{
+                }
+                case "2" -> {
+                    try {
                         ViewStateWithLeastMatchByPeriod.show(serviceFull);
                         System.out.println();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
-                case "3":
-                    try{
+                }
+                case "3" -> {
+                    try {
                         ViewAthleteWithMostGoals.show(serviceGol);
                         System.out.println();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
-                case "4":
-                    try{
+                }
+                case "4" -> {
+                    try {
                         ViewAthleteWithMostPenalties.show(serviceGol);
                         System.out.println();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
-                case "5":
-                    try{
+                }
+                case "5" -> {
+                    try {
                         ViewAthleteWithMostOwnGoals.show(serviceGol);
                         System.out.println();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
-                case "6":
-                    try{
+                }
+                case "6" -> {
+                    try {
                         ViewAthleteWithMostYellowCards.show(serviceCards);
                         System.out.println();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
-                case "7":
-                    try{
+                }
+                case "7" -> {
+                    try {
                         ViewAthleteWithMostRedCards.show(serviceCards);
                         System.out.println();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
-                case "8":
-                    try{
+                }
+                case "8" -> {
+                    try {
                         ViewMatchWithMostScore.show(serviceFull);
                         System.out.println();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
-                case "0":
-                    System.out.println("Obrigado pela preferência!");
-                    break;
-                default:
-                    System.out.println("Operação inválida!");
-                    break;
+                }
+                case "0" -> System.out.println("Obrigado pela preferência!");
+                default -> System.out.println("Operação inválida!");
             }
         } while (!operacao.equals("0"));
 
