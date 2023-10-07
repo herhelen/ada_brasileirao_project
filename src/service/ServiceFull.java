@@ -5,10 +5,12 @@ import src.repository.Repositorio;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 
 public class ServiceFull extends Service<DadosFull> {
 
@@ -16,20 +18,31 @@ public class ServiceFull extends Service<DadosFull> {
         super(repositorio);
     }
 
-    public List<Map.Entry<String, Long>> getTeamWithMostWinsByYear(Integer year) {
 
-        Supplier<Stream<Map.Entry<String, Long>>> baseStream = () -> this.repositorio
+    private Supplier<Stream<Map.Entry<String, Long>>> getDadosFullFiltered(Predicate<DadosFull> filter,
+                                                                  Function<? super DadosFull, String> function) {
+
+       return () -> this.repositorio
                 .getDados().stream()
-                // Remove os empates
-                .filter(match -> !match.getWinner().equalsIgnoreCase("-"))
-                .filter(match -> match.getDate().getYear() == year)
-                // agrupa pelo nome do time vencedor e conta número de vitórias
-                .collect(Collectors.groupingBy(DadosFull::getWinner, Collectors.counting()))
+                // aplica filtro desejado
+                .filter(filter)
+                // agrupa pela função desejada
+                .collect(Collectors.groupingBy(function, Collectors.counting()))
                 .entrySet()
                 .stream();
+    }
+
+    public List<Map.Entry<String, Long>> getTeamWithMostWinsByYear(Integer year) {
+
+        Supplier<Stream<Map.Entry<String, Long>>> baseStream = getDadosFullFiltered(
+                dadosFull ->
+                        (!dadosFull.getWinner().equalsIgnoreCase("-")) &&
+                        (year.equals(dadosFull.getDate().getYear())),
+                DadosFull::getWinner
+        );
 
         // Encontra o maior número de vitórias
-        Long numberMostWins = baseStream
+        Long numberMax = baseStream
                 .get()
                 .max(Map.Entry.comparingByValue())
                 .get()
@@ -38,22 +51,21 @@ public class ServiceFull extends Service<DadosFull> {
         // Retorna uma lista de times que tenha número de vitórias igual ao maior número de vitórias
         return baseStream
                 .get()
-                .filter(entry -> entry.getValue() == numberMostWins)
+                .filter(entry -> numberMax.equals(entry.getValue()))
                 .collect(Collectors.toList());
     }
 
-
     public List<Map.Entry<String, Long>> getStateWithLeastMatchByPeriod(Integer startYear, Integer endYear) {
 
-        Supplier<Stream<Map.Entry<String, Long>>> baseStream = () -> this.repositorio
-                .getDados().stream()
-                .filter(match -> match.getDate().getYear() >= startYear && match.getDate().getYear() <= endYear)
-                .collect(Collectors.groupingBy(DadosFull::getHostState, Collectors.counting()))
-                .entrySet()
-                .stream();
+        Supplier<Stream<Map.Entry<String, Long>>> baseStream = getDadosFullFiltered(
+                dadosFull ->
+                        (dadosFull.getDate().getYear() >= startYear) &&
+                        (dadosFull.getDate().getYear() <= endYear),
+                DadosFull::getHostState
+        );
 
-        // Find min Matches
-        Long numberLeastMatches = baseStream
+        // Encontra o menor número de partidas
+        Long numberMax = baseStream
                 .get()
                 .min(Map.Entry.comparingByValue())
                 .get()
@@ -62,25 +74,22 @@ public class ServiceFull extends Service<DadosFull> {
         // Retorna uma lista de estados que tenha número de partidas igual ao menor número de partidas
         return baseStream
                 .get()
-                .filter(entry -> entry.getValue() == numberLeastMatches)
+                .filter(entry -> numberMax.equals(entry.getValue()))
                 .collect(Collectors.toList());
     }
 
     public List<DadosFull> getMatchWithMostScore() {
 
-        Optional<Integer> numberMostScore = this.repositorio
+        Integer numberMostScore = this.repositorio
                 .getDados().stream()
                 .map(dadosFull -> dadosFull.getHostScore() + dadosFull.getVisitorScore())
-                .max(Integer::compareTo);
+                .max(Integer::compareTo)
+                .orElse(-1);
 
-        if (numberMostScore.isPresent()) {
-
-            return this.repositorio
-                    .getDados().stream()
-                    .filter(dadosFull -> dadosFull.getHostScore() + dadosFull.getVisitorScore() == numberMostScore.get())
-                    .collect(Collectors.toList());
-        }
-
-        return null;
+        return this.repositorio
+                .getDados().stream()
+                .filter(dadosFull -> dadosFull.getHostScore() + dadosFull.getVisitorScore() == numberMostScore)
+                .collect(Collectors.toList());
     }
+
 }
