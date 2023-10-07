@@ -18,8 +18,7 @@ public class ServiceFull extends Service<DadosFull> {
 
     public List<Map.Entry<String, Long>> getTeamWithMostWinsByYear(Integer year) {
 
-        // Encontra o maior número de vitórias
-        Long numberMostWins = this.repositorio
+        Supplier<Stream<Map.Entry<String, Long>>> baseStream = () -> this.repositorio
                 .getDados().stream()
                 // Remove os empates
                 .filter(match -> !match.getWinner().equalsIgnoreCase("-"))
@@ -27,19 +26,18 @@ public class ServiceFull extends Service<DadosFull> {
                 // agrupa pelo nome do time vencedor e conta número de vitórias
                 .collect(Collectors.groupingBy(DadosFull::getWinner, Collectors.counting()))
                 .entrySet()
-                .stream()
+                .stream();
+
+        // Encontra o maior número de vitórias
+        Long numberMostWins = baseStream
+                .get()
                 .max(Map.Entry.comparingByValue())
                 .get()
                 .getValue();
 
         // Retorna uma lista de times que tenha número de vitórias igual ao maior número de vitórias
-        return this.repositorio
-                .getDados().stream()
-                .filter(match -> !match.getWinner().equalsIgnoreCase("-"))
-                .filter(match -> match.getDate().getYear() == year)
-                .collect(Collectors.groupingBy(DadosFull::getWinner, Collectors.counting()))
-                .entrySet()
-                .stream()
+        return baseStream
+                .get()
                 .filter(entry -> entry.getValue() == numberMostWins)
                 .collect(Collectors.toList());
     }
